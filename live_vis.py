@@ -81,7 +81,7 @@ class LiveVis(object):
 
         
     def init_window(self):
-        cv2.namedWindow(self.window_name)
+        #cv2.namedWindow(self.window_name)
         max_i, max_j = 0, 0
         if len(self.settings.window_panes) == 0:
             raise ImproperlyConfigured('settings.window_panes is empty.')
@@ -140,6 +140,7 @@ class LiveVis(object):
         frame_for_apps = None
         redraw_needed = True    # Force redraw the first time
         imshow_needed = True
+        count = 0
         while not self.quit:
             # Call any heartbeats
             for heartbeat in heartbeat_functions:
@@ -240,9 +241,14 @@ class LiveVis(object):
                         # Copy main buffer to help buffer
                         self.help_buffer[:] = self.window_buffer[:]
                         self.draw_help()
-                        cv2_imshow_rgb(self.window_name, self.help_buffer)
+                        cv2_imshow_rgb(self.window_name, self.help_buffer, True)
                     else:
-                        cv2_imshow_rgb(self.window_name, self.window_buffer)
+                        if count == 0:
+                            cv2_imshow_rgb(self.window_name, self.window_buffer, False)
+                        if count == 1:
+                            cv2_imshow_rgb(self.window_name, self.window_buffer, True)
+                            break
+                        count += 1
                     imshow_needed = False
 
             ii += 1

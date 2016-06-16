@@ -88,9 +88,11 @@ def crop_to_square(frame):
         return frame[offset:offset+j_size,:,:]
 
 
-def cv2_imshow_rgb(window_name, img):
+def cv2_imshow_rgb(window_name, img, exist):
     # Convert native OpenCV BGR -> RGB before displaying
-    cv2.imshow(window_name, img[:,:,::-1])
+    #cv2.imshow(window_name, img[:,:,::-1])
+    if exist:
+        cv2.imwrite('/tmp/tmp.jpg', img[:,:,::-1])
     #cv2.imshow(window_name, img)
 
 
