@@ -4,7 +4,7 @@ import os
 from live_vis import LiveVis
 from bindings import bindings
 try:
-    import settings
+    import deep_visualization_settings
 except:
     print '\nError importing settings.py. Check the error message below for more information.'
     print "If you haven't already, you'll want to copy one of the settings_local.template-*.py files"
@@ -14,13 +14,13 @@ except:
     print '  $ < edit settings_local.py >\n'
     raise
 
-if not os.path.exists(settings.caffevis_caffe_root):
+if not os.path.exists(deep_visualization_settings.caffevis_caffe_root):
     raise Exception('ERROR: Set caffevis_caffe_root in settings.py first.')
 
 
 
 def main():
-    lv = LiveVis(settings)
+    lv = LiveVis(deep_visualization_settings)
 
     help_keys, _ = bindings.get_key_help('help_mode')
     quit_keys, _ = bindings.get_key_help('quit')
