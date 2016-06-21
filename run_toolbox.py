@@ -19,14 +19,14 @@ if not os.path.exists(deep_visualization_settings.caffevis_caffe_root):
 
 
 
-def main():
+def tool_start():
     lv = LiveVis(deep_visualization_settings)
 
     help_keys, _ = bindings.get_key_help('help_mode')
     quit_keys, _ = bindings.get_key_help('quit')
     print '\n\nRunning toolbox. Push %s for help or %s to quit.\n\n' % (help_keys[0], quit_keys[0])
     lv.run_loop()
-
+    return True
 
     
 if __name__ == '__main__':
