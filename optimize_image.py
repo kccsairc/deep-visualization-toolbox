@@ -5,7 +5,7 @@ import sys
 import argparse
 import numpy as np
 
-import settings
+import deep_visualization_settings
 from optimize.gradient_optimizer import GradientOptimizer, FindParams
 from caffevis.caffevis_helper import check_force_backward_true, read_label_file
 
@@ -19,13 +19,13 @@ def get_parser():
     )
 
     # Network and data options
-    parser.add_argument('--caffe-root', type = str, default = settings.caffevis_caffe_root,
+    parser.add_argument('--caffe-root', type = str, default = deep_visualization_settings.caffevis_caffe_root,
                         help = 'Path to caffe root directory.')
-    parser.add_argument('--deploy-proto', type = str, default = settings.caffevis_deploy_prototxt,
+    parser.add_argument('--deploy-proto', type = str, default = deep_visualization_settings.caffevis_deploy_prototxt,
                         help = 'Path to caffe network prototxt.')
-    parser.add_argument('--net-weights', type = str, default = settings.caffevis_network_weights,
+    parser.add_argument('--net-weights', type = str, default = deep_visualization_settings.caffevis_network_weights,
                         help = 'Path to caffe network weights.')
-    parser.add_argument('--mean', type = str, default = repr(settings.caffevis_data_mean),
+    parser.add_argument('--mean', type = str, default = repr(deep_visualization_settings.caffevis_data_mean),
                         help = '''Mean. The mean may be None, a tuple of one mean value per channel, or a string specifying the path to a mean image to load. Because of the multiple datatypes supported, this argument must be specified as a string that evaluates to a valid Python object. For example: "None", "(10,20,30)", and "'mean.npy'" are all valid values. Note that to specify a string path to a mean file, it must be passed with quotes, which usually entails passing it with double quotes in the shell! Alternately, just provide the mean in settings_local.py.''')
     parser.add_argument('--channel-swap-to-rgb', type = str, default = '(2,1,0)',
                         help = 'Permutation to apply to channels to change to RGB space for plotting. Hint: (0,1,2) if your network is trained for RGB, (2,1,0) if it is trained for BGR.')
@@ -183,14 +183,14 @@ def main():
         mean = data_mean,
         raw_scale = 1.0,
     )
-    check_force_backward_true(settings.caffevis_deploy_prototxt)
+    check_force_backward_true(deep_visualization_settings.caffevis_deploy_prototxt)
 
     labels = None
-    if settings.caffevis_labels:
-        labels = read_label_file(settings.caffevis_labels)
+    if deep_visualization_settings.caffevis_labels:
+        labels = read_label_file(deep_visualization_settings.caffevis_labels)
 
     optimizer = GradientOptimizer(net, data_mean, labels = labels,
-                                  label_layers = settings.caffevis_label_layers,
+                                  label_layers = deep_visualization_settings.caffevis_label_layers,
                                   channel_swap_to_rgb = channel_swap_to_rgb)
     
     params = FindParams(
